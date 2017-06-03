@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<project name="hg-websvr-bgicafe" basedir="../" default="main">
+    <property name="src.dir" value="src" />
+    <property name="web.dir" value="target\Rank-0.0.1-SNAPSHOT" />
+    <property name="lib.dir" value="${web.dir}/WEB-INF/lib" />
+    <property name="out.dir" value="${web.dir}/WEB-INF/classes" />
+    <property name="destwar" value="deploy/${ant.project.name}.war" />
+    <property name="servlet.dir" value="deploy/servlet" />
+
+    <path id="classpath">
+        <fileset dir="${lib.dir}" >
+            <include name="*.jar"/>
+        </fileset>
+        <fileset dir="${servlet.dir}" >
+            <include name="servlet-api-2.5.jar"/>
+        </fileset>
+    </path>
+
+    <target name="init">
+        <delete dir="${out.dir}" failonerror="no" />
+        <delete file="${destwar}" failonerror="no" />
+        <mkdir dir="${out.dir}" />
+    </target>
+
+    <target name="main" depends="init">
+        <echo>Compiling java source files...</echo>
+        <javac srcdir="${src.dir}" destdir="${out.dir}" debug="on" includeantruntime="yes" source="1.6" target="1.6" encoding="UTF-8" >
+            <classpath refid="classpath" />
+            <compilerarg compiler="1.6" />
+        </javac>
+        <copy todir="${out.dir}" overwrite="yes">
+            <fileset dir="${src.dir}">
+                <exclude name="*.java" />
+            </fileset>
+        </copy>
+        <war basedir="${web.dir}" destfile="${destwar}" />
+        <echo>done!</echo>
+    </target>
+</project>

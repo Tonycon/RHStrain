@@ -1,0 +1,37 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+<title>500页面</title>
+
+</head>
+<body>
+	<div style="margin: 50px auto 30px auto;text-align:center;">
+		<img id="img" src="" style="width: 50%">
+	</div>
+	<div style="text-align:center;">
+		<span style="font-size: 16px;font-weight:bold;color:#5f5f5f;">服务器开小差啦</span>
+		<span style="color:#8c8c8c;">，重新打开试试呗！</span>
+	</div>
+</body>
+</html>
+<script type="text/javascript">
+//js获取项目根路径，如： http://localhost:8083/uimcardprj
+
+	function getRootPath(){
+	    //获取当前网址，如： http://localhost:8083/uimcardprj/share/meun.jsp
+	    var curWwwPath=window.document.location.href;
+	    //获取主机地址之后的目录，如： uimcardprj/share/meun.jsp
+	    var pathName=window.document.location.pathname;
+	    var pos=curWwwPath.indexOf(pathName);
+	    //获取主机地址，如： http://localhost:8083
+	    var localhostPaht=curWwwPath.substring(0,pos);
+	    //获取带"/"的项目名，如：/uimcardprj
+	    var projectName=pathName.substring(0,pathName.substr(1).indexOf('/')+1);
+	    return(localhostPaht+projectName);
+	}	
+	var imgPath = getRootPath() + "/resources/images/500.png";
+	document.getElementById("img").src = imgPath;
+</script>

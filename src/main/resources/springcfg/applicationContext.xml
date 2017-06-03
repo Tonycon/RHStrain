@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jpa="http://www.springframework.org/schema/data/jpa" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-3.0.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+
+	<mvc:annotation-driven>   
+	    <mvc:message-converters>     
+	        <bean class="org.springframework.http.converter.StringHttpMessageConverter">     
+	            <property name="supportedMediaTypes">     
+	                <list>     
+	                    <value>text/plain;charset=UTF-8</value>     
+	                    <value>text/html;charset=UTF-8</value>     
+	                </list>     
+	            </property>     
+	        </bean>      
+	    </mvc:message-converters>     
+	</mvc:annotation-driven>
+	<context:component-scan base-package="com.bgi.bgicafe.controller" />
+	<context:component-scan base-package="com.bgi.bgicafe.service" />
+	<context:component-scan base-package="com.bgi.bgicafe.dao" />
+	<mvc:default-servlet-handler />
+
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="viewClass"
+			value="org.springframework.web.servlet.view.JstlView" />
+		<property name="prefix" value="/WEB-INF/webpage/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+
+	<!-- 加载配置文件 -->
+	<bean
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:application.properties</value>
+				<value>classpath:springcfg/dataSource.properties</value>
+				<!-- <value>classpath:springcfg/mongodb.properties</value> -->
+			</list>
+		</property>
+	</bean>
+	 <!-- 配置数据源 -->
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+    	<property name="driverClass" value="oracle.jdbc.driver.OracleDriver" />
+		<property name="jdbcUrl" value="${db.hims.jdbcUrl}" />
+		<property name="user" value="${db.hims.user}" />
+		<property name="password" value="${db.hims.password}" />
+		
+		<!-- 连接池中保留的最大连接数 -->
+		<property name="maxPoolSize" value="50" />
+		<!-- 连接池中保留的最小连接数 -->
+		<property name="minPoolSize" value="10" />
+		<!-- 初始化时获取的连接数  initialPoolSize>=minPoolSize && initialPoolSize<=maxPoolSize -->
+		<property name="initialPoolSize" value="15" />
+		<!-- 最大空闲时间(秒) -->
+		<property name="maxIdleTime" value="60" />
+		<!-- 每隔60秒检查连接池中的空闲连接 -->
+		<property name="idleConnectionTestPeriod" value="60" />
+		<!--  global PreparedStatement cache -->
+		<property name="maxStatements" value="400"/>
+		<!-- 连接池用完时,等待获取新连接的时间 (毫秒) -->
+		<property name="checkoutTimeout" value="30000"/>
+    </bean>
+   
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+  		<property name="dataSource" ref="dataSource" />
+ 	</bean>
+ 	
+	<!-- 
+ 	<bean id="appContextUtil" class="bgi.genebook.vip.util.AppContextUtil" ></bean>
+  	 -->
+	<tx:annotation-driven transaction-manager="transactionManager" />
+	
+	<bean id="springContextHolder" class="com.bgi.rank.util.SpringContextHolder"/>
+
+	<!-- spring mvc对静态资源的访问 -->
+	<!-- <mvc:resources mapping="/**" location="/resources" /> -->
+<!-- 	<mvc:resources location="/css/" mapping="/css/**" />
+	<mvc:resources location="/js/" mapping="/js/**" />
+	<mvc:resources location="/images/" mapping="/images/**" /> -->
+
+	<!--配置拦截器, 多个拦截器,顺序执行 -->
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<!-- 匹配的是url路径， 如果不配置或/**,将拦截所有的Controller -->
+			<mvc:mapping path="/**" />
+			<bean class="com.bgi.rank.interceptor.CookieInterceptor">
+			</bean>
+		</mvc:interceptor>
+		<mvc:interceptor>
+			<!-- 匹配的是url路径， 如果不配置或/**,将拦截所有的Controller -->
+			<mvc:mapping path="/cafe/*" />
+			<bean class="com.bgi.rank.interceptor.LoginInterceptor">
+				<property name="excludeUrls">
+					<list>
+						<value>/cafe/cafe</value>
+					</list>
+				</property>
+			</bean>
+		</mvc:interceptor>
+	
+		<!-- 当设置多个拦截器时，先按顺序调用preHandle方法，然后逆序调用每个拦截器的postHandle和afterCompletion方法 -->
+	</mvc:interceptors>
+
+	<import resource="webservice.xml" />
+	<import resource="spring-memcache.xml" />
+</beans>

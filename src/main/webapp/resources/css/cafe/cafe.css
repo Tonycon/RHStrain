@@ -1,0 +1,101 @@
+body {
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+.infotitle {
+	font-size: 18px;
+	text-align: center;
+	line-height: 1px;
+	padding-top: 8%;
+}
+.infotext {
+	font-size: 16px;
+	text-align: center;
+	opacity: 0.9;
+}
+.infoBody {
+	width: 80%;
+	min-height: 200px;
+	height: 200px;
+	background-color: #FFFFFF;
+	border-radius: 12px;
+	padding: 0 6% !important;
+}
+.infoButton {
+	font-size: 17px;
+	text-align: center;
+	font-family:Georgia;
+	padding-top:3%;
+}
+.infoButton a{
+	color: #b4df41;
+	clear: both;
+}
+.imgclass {
+	text-align:center;
+	width:100%;
+    background-size:100% 100%;
+	background: url(../../images/cafe/juice.jpg) no-repeat 0
+		0%;
+}
+.response-img {
+    max-width: 100%;
+}
+
+.login {
+	height: 50px;
+	line-height: 50px;
+	text-align: center;
+	font-family: 'PingFang';
+	font-size: 18px;
+	color: #FFFFFF;
+	background-color: #b4df41;
+	opacity: 0.9;
+	position: fixed;
+	bottom: 0px;
+	width: 100%;
+}
+.infotextsignup{
+	font-size: 15px;
+	text-align: left;
+	line-height: 30px;
+}
+
+.infotextsignupdedail{
+	font-size: 10px;
+	opacity: 0.8;
+	text-align: left;
+}
+.infoBodysignup {
+	width: 80%;
+	min-height: 230px;
+	padding:0 20px !important;
+	height: 230px;
+	background-color: #FFFFFF;
+	border-radius: 12px;
+}
+.infotextsignup {
+	font-size: 15px;
+	text-align: left;
+}
+.issignup {
+	height: 50px;
+	line-height: 50px;
+	text-align: center;
+	font-family: 'PingFang';
+	font-size: 18px;
+	color: #FFFFFF;
+	background-color: #999999;
+	opacity: 0.9;
+	position: fixed;
+	bottom: 0px;
+	width: 100%;
+}
+.display {
+	display:none;
+}
+.original {
+	font-size: 7px;
+	color: #b4df41;
+	text-decoration:line-through;
+}
