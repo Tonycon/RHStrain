@@ -21,17 +21,17 @@ import com.bgi.rank.util.PropertiesUtils;
 import com.bgi.rank.util.StringUtils;
 
 @Controller
-@RequestMapping("/cafeLogin")
+@RequestMapping("/strain")
 public class CafeLoginController {
 
 	@Resource
 	private CafeInfoService cafeInfoService;
 
-	@RequestMapping("/cafeLoginPage")
+	@RequestMapping("/detailInfo")
 	public ModelAndView cafeLoginPage(HttpServletRequest request)
 			throws ParseException {
 		ModelAndView mav = new ModelAndView();
-		Object _st = request.getAttribute("_st");
+		/*Object _st = request.getAttribute("_st");
 		if (null == _st || !StringUtils.isNotEmpty(_st.toString())) {
 			// 1：表示没有用健客APP扫描
 			mav.setViewName("/cafe/cafe");
@@ -114,8 +114,8 @@ public class CafeLoginController {
 		// 报名且缴费为计划日期未开始
 		if (!isPlanStartDate && StringUtils.isNotEmpty(plan)) {
 			mav.addObject("isPlanStartDate", false);
-		}
-		mav.setViewName("/cafe/cafeindex");
+		}*/
+		mav.setViewName("/strain/index");
 		return mav;
 
 	}
